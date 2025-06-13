@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Room;
 use App\Models\Patient;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,12 +14,14 @@ class PatientController extends Controller
      */
     public function index(Request $request)
     {
+        $rooms = Room::all();
+
         $search = $request->input('search');
         $patients = Patient::when($search, function ($query, $search) {
             return $query->where('full_name', 'like', "%{$search}%")
                         ->orWhere('id_card', 'like', "%{$search}%");
         })->paginate(10);
-        return view('patients.index', compact('patients', 'search'));
+        return view('patients.index', compact('patients', 'search', 'rooms'));
     }
 
     /**
