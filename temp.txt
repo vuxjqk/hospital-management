@@ -1,0 +1,7 @@
+php artisan make:model Patient
+
+php artisan make:controller PatientController --resource
+
+use App\Http\Controllers\PatientController;
+
+Route::resource('patients', PatientController::class);
